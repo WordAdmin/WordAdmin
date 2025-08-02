@@ -1,0 +1,30 @@
+name: Deploy static HTML to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Đổi thành 'master' nếu repo dùng branch này
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # Đường dẫn tới thư mục chứa index.html, v.v.
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
